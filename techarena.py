@@ -13,4 +13,4 @@ for i in range(len(a) // 2):
 print(data)
 
 coord = [[1, 1], [2, 1], [2, 2], [1, 2], [0.5, 1.5]]
-check.checkIf(data, [])
+check.checkIf(coord, [[[1, 1], [2, 3]]])
