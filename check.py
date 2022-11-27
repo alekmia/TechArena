@@ -1,21 +1,31 @@
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
+from shapely.geometry import Polygon
+# from shapely import box, LineString, normalize, Polygon
 
 
-def checkIf(figureCoord, rectCoord):
-    figureCoord.append(figureCoord[0])  # repeat the first point to create a 'closed loop'
+def checkIfCovers(figureCoord, rects):
+    polya = Polygon(figureCoord)
+    polyDiff = polya
+    for i in rects:
+        i.append((i[1][0], i[0][1]))
+        i.append(i.pop(1))
+        i.append((i[0][0], i[2][1]))
+        print(i)
+        polyb = Polygon(i)
+        polyDiff = polyDiff.difference(polyb)
+    if polyDiff.area == 0:
+        return True
+    return False
 
-    xs, ys = zip(*figureCoord)  # create lists of x and y values
-
-    plt.figure()
-    plt.axis('equal')
-    plt.fill(xs, ys)
-
-    for i in rectCoord:
-        a = i[0]
-        b = i[1]
-        width = abs(b[0] - a[0])
-        height = abs(b[1] - a[1])
-        plt.gca().add_patch(Rectangle(a, width, height, color="red"))
-
-    plt.savefig('foo.png')
+def checkIfIn(container, inside):
+    polyFig = Polygon(container)
+    i = inside
+    i.append((i[1][0], i[0][1]))
+    i.append(i.pop(1))
+    i.append((i[0][0], i[2][1]))
+    polyRect = Polygon(i)
+    print(i)
+    # plt.plot(polyRect)
+    # plt.show()
+    return polyFig.contains(polyRect)
