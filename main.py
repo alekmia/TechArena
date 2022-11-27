@@ -31,6 +31,10 @@ x0 = []
 pointCount = 3
 for i in range(pointCount):
     x = np.random.randint(left, right)
+    y = np.random.randint(left, right)
+    width = np.random.randint(0, right - x)
+    height = np.random.randint(0, top - y)
+    x0.append([x, y, width, height])
 
 
 res = minimize(
